@@ -9,9 +9,6 @@ const menus = [{
 }, {
   name: '主页',
   url: '/',
-}, {
-  name: '数据',
-  url: '/data',
 }];
 
 export default function Nav() {

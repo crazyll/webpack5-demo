@@ -1,9 +1,9 @@
-const Koa = require('koa');
-const path = require('path');
-const fs = require('fs');
-const crypto = require('crypto');
-const Router = require('koa-router');
-const koaStatic = require('koa-static');
+import Koa from 'koa';
+import path from 'path';
+import fs from 'fs';
+import crypto from 'crypto';
+import Router from 'koa-router';
+import koaStatic from 'koa-static';
 
 const app = new Koa();
 const router = new Router();

@@ -1,24 +1,22 @@
-const path = require('path');
-const webpack = require('webpack');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // const ManifestPlugin = require('webpack-manifest-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const babelConfig = require('./babel.config.json');
 
-const dev = process.env.NODE_ENV === 'development';
+// import babelConfig from './babel.config.json';
 
-module.exports = {
-  mode: process.env.NODE_ENV,
+const config = {
+  mode: 'development',
   entry: [
-    'core-js/modules/es.promise',
-    'core-js/modules/es.array.iterator',
+    'react-hot-loader/patch',
     './src/client/app.jsx',
   ],
+  target: 'web',
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
+    contentBase: path.join('dist'),
     port: 9000,
     hot: true,
     proxy: {
@@ -36,11 +34,11 @@ module.exports = {
           chunks: 'initial',
           minChunks: 2,
         },
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
+        // vendors: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   name: 'vendors',
+        //   chunks: 'all',
+        // },
       },
     },
     // https://developers.google.com/web/fundamentals/performance/webpack/use-long-term-caching
@@ -96,15 +94,36 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
-          options: babelConfig,
+          options: {
+            "presets": [
+              [
+                "@babel/preset-env",
+                {
+                  "targets": {
+                    "browsers": "> 0.25%, not dead",
+                    "node": "current"
+                  },
+                  "useBuiltIns": "usage",
+                  "corejs": {
+                    "version": "3.8",
+                    "proposals": true
+                  }
+                }
+              ],
+              "@babel/preset-react"
+            ],
+            "plugins": [
+              "@babel/plugin-transform-runtime",
+              "react-loadable/babel",
+              "react-hot-loader/babel"
+            ]
+          },
         },
       },
     ],
   },
   plugins: [
-    new ESLintPlugin({
-      threads: true,
-    }),
+    new ESLintPlugin({ threads: true }),
     new HtmlWebpackPlugin({
       template: './src/client/index.html',
       publicPath: './',
@@ -112,15 +131,20 @@ module.exports = {
     // new ManifestPlugin(), // https://github.com/shellscape/webpack-manifest-plugin/issues/219
     new MiniCssExtractPlugin(),
     new webpack.EvalSourceMapDevToolPlugin({}),
-    dev && new CleanWebpackPlugin(),
-
+    new CleanWebpackPlugin(),
   ],
   output: {
     filename: '[name].[chunkhash].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve('dist'),
   },
   resolve: {
     extensions: ['.js', '.jsx'],
     symlinks: false,
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+      'Component': path.resolve('./src/client/component'),
+    }
   },
 };
+
+export default config;

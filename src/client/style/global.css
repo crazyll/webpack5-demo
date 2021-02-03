@@ -14,8 +14,3 @@ body {
   --color-header: #24292e;
   --color-primary: rgb(0, 102, 255);
 }
-
-.common-view {
-  width: 100%;
-  height: 500px;
-}
