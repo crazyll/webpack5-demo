@@ -1,0 +1,17 @@
+.container {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  background: var(--color-header);
+}
+
+.link {
+  color: #ffffff;
+  font-size: 14px;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--color-primary);
+}

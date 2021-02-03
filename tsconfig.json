@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "noEmit": true,
+    "jsx": "react" // https://javascriptplayground.com/vscode-go-to-definition-jsx/
+  }
+}
