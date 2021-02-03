@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -43,5 +42,4 @@ function App() {
   );
 }
 
-const HotApp = hot(App);
-ReactDOM.render(<HotApp />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

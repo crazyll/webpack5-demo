@@ -5,13 +5,13 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // const ManifestPlugin = require('webpack-manifest-plugin');
+import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 // import babelConfig from './babel.config.json';
 
 const config = {
   mode: 'development',
   entry: [
-    'react-hot-loader/patch',
     './src/client/app.jsx',
   ],
   target: 'web',
@@ -95,7 +95,7 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            "presets": [
+            presets: [
               [
                 "@babel/preset-env",
                 {
@@ -112,10 +112,10 @@ const config = {
               ],
               "@babel/preset-react"
             ],
-            "plugins": [
+            plugins: [
               "@babel/plugin-transform-runtime",
               "react-loadable/babel",
-              "react-hot-loader/babel"
+              "react-refresh/babel",
             ]
           },
         },
@@ -130,6 +130,7 @@ const config = {
     }),
     // new ManifestPlugin(), // https://github.com/shellscape/webpack-manifest-plugin/issues/219
     new MiniCssExtractPlugin(),
+    new ReactRefreshPlugin(),   // react-refresh 添加
     new webpack.EvalSourceMapDevToolPlugin({}),
     new CleanWebpackPlugin(),
   ],

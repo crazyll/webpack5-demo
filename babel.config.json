@@ -19,6 +19,6 @@
   "plugins": [
     "@babel/plugin-transform-runtime",
     "react-loadable/babel",
-    "react-hot-loader/babel"
+    "react-refresh/babel"
   ]
 }
