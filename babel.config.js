@@ -1,4 +1,4 @@
-{
+const config = {
   "presets": [
     [
       "@babel/preset-env",
@@ -18,7 +18,16 @@
   ],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    "react-loadable/babel",
-    "react-refresh/babel"
+    "react-loadable/babel"
   ]
+}
+
+export default function (dev) {
+  // if (!api) return;
+  // const isProduction = api.env("production");
+  const res = config;
+  if (dev === true && !res.plugins.includes('react-refresh/babel')) {
+    res.plugins.push('react-refresh/babel');
+  }
+  return res;
 }

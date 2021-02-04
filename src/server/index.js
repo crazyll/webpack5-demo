@@ -4,6 +4,7 @@ import fs from 'fs';
 import crypto from 'crypto';
 import Router from 'koa-router';
 import koaStatic from 'koa-static';
+import favicon from 'koa-favicon';
 
 const app = new Koa();
 const router = new Router();
@@ -19,6 +20,8 @@ app.use(koaStatic(
     maxage: 30 * 24 * 60 * 60 * 1000, // 指定静态资源在浏览器中的缓存时间
   },
 ));
+
+app.use(favicon('./favicon.ico'));
 
 // logger
 app.use(async (ctx, next) => {

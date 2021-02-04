@@ -1,9 +1,9 @@
-# arcgis-demo
+# webpack5-demo
 
 ## 开始
 下载
 
- `git clone https://github.com/crazyll/arcgis-demo.git`
+ `git clone https://github.com/crazyll/webpack5-demo.git`
 
 安装
 
