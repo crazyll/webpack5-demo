@@ -19,6 +19,7 @@ const defaultConfig = {
     './src/client/app.jsx',
   ],
   target: 'web',
+  devtool: dev ? 'eval-source-map' : false,
   devServer: {
     contentBase: path.join('dist'),
     port: 9000,
@@ -33,12 +34,13 @@ const defaultConfig = {
     rules: [
       {
         test: /\.(css|less)$/i,
-        exclude: /node_modules/,
         use: [
           process.env.NODE_ENV === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
+              import: true,
+              importLoaders: 1,
               modules: {
                 // 回调必须返回 `local`，`global`，或者 `pure`
                 mode: (resourcePath) => {
@@ -46,7 +48,7 @@ const defaultConfig = {
                     return 'pure';
                   }
 
-                  if (/global.css$/i.test(resourcePath)) {
+                  if (/global.css$/i.test(resourcePath) || /node_modules/.test(resourcePath)) {
                     return 'global';
                   }
 
@@ -61,15 +63,19 @@ const defaultConfig = {
             options: {
               postcssOptions: {
                 plugins: [
-                  [
-                    'autoprefixer',
-                  ],
+                  ["postcss-preset-env", { stage: 0 }],
+                  ['autoprefixer']
                 ],
               },
             },
           },
           {
             loader: 'less-loader',
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              }
+            }
           },
         ],
       },

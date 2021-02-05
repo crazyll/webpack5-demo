@@ -1,24 +1,31 @@
 const config = {
-  "presets": [
+  presets: [
     [
       "@babel/preset-env",
       {
-        "targets": {
-          "browsers": "> 0.25%, not dead",
-          "node": "current"
+        targets: {
+          browsers: "> 0.25%, not dead",
+          node: "current"
         },
-        "useBuiltIns": "usage",
-        "corejs": {
-          "version": "3.8",
-          "proposals": true
+        useBuiltIns: "usage",
+        corejs: {
+          version: "3.8",
+          proposals: true
         }
       }
     ],
     "@babel/preset-react"
   ],
-  "plugins": [
+  plugins: [
     "@babel/plugin-transform-runtime",
-    "react-loadable/babel"
+    "react-loadable/babel",
+    [
+      "import",
+      {
+        libraryName: "antd",
+        style: true
+      }
+    ]
   ]
 }
 

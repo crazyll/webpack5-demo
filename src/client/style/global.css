@@ -10,6 +10,10 @@ body {
   font-family: PingFangSC-Regular, PingFang SC;
 }
 
+::placeholder {
+  color: gray;
+}
+
 :root {
   --color-header: #24292e;
   --color-primary: rgb(0, 102, 255);
