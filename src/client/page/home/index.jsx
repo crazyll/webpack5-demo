@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from 'Component/Button';
+import Button from '@/component/Button';
 import styles from './index.css';
 
 export default function Index() {

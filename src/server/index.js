@@ -6,6 +6,13 @@ import Router from 'koa-router';
 import koaStatic from 'koa-static';
 import favicon from 'koa-favicon';
 
+import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { StaticRouter } from "react-router-dom";
+import Layout from '../client/layout';
+import packageConfig from '../../package.json';
+
+const { ssr } = packageConfig.config;
 const app = new Koa();
 const router = new Router();
 
@@ -15,6 +22,7 @@ app.use(koaStatic(
   },
 ));
 
+// production
 app.use(koaStatic(
   path.resolve('dist'), { // 静态文件所在目录
     maxage: 30 * 24 * 60 * 60 * 1000, // 指定静态资源在浏览器中的缓存时间
@@ -37,6 +45,22 @@ app.use(async (ctx, next) => {
   const ms = Date.now() - start;
   ctx.set('X-Response-Time', `${ms}ms`);
 });
+
+if (ssr) {
+// response
+  app.use(ctx => {
+    let staticContext = {}
+
+    let str = renderToString(
+      <StaticRouter location={ctx.url} context={staticContext}>
+        <Layout />
+      </StaticRouter>
+    );
+
+    ctx.type = 'html';
+    ctx.body = '<!DOCTYPE html>' + str;
+  })
+}
 
 // response
 router.get(/\/*/, async (ctx) => {
