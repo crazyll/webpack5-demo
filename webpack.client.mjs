@@ -1,12 +1,13 @@
 import path from 'path';
 import webpack from 'webpack';
+import { merge } from "webpack-merge";
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import CssMinimizerPlugin from "css-minimizer-webpack-plugin"; // 对CSS进行压缩
+import baseConfig from "./webpack.base.mjs";
 
 const dev = process.env.NODE_ENV === 'development' ? true : false;
 const PUBLIC_PATH = "/";
@@ -49,12 +50,6 @@ const clientConfig = {
 
 
 export default function getWebpackConfig() {
-  const config = defaultConfig;
-  if (dev) {
-    config.plugins.push();
-  }
-  if (!dev) {
-    config.optimization = optimization;
-  }
+  const config = merge(baseConfig, clientConfig);
   return config;
 }

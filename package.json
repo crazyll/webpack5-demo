@@ -33,7 +33,7 @@
   "scripts": {
     "serve": "node server.js",
     "dev": "NODE_ENV=development node client.mjs",
-    "build": "NODE_ENV=production node client.js",
+    "build": "NODE_ENV=production node client.mjs",
     "test": "yarn run lint"
   },
   "devDependencies": {

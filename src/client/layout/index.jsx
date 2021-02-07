@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import Nav from './nav';
-import routes from './routes';
+import routes from '../routes';
 import styles from './index.css';
 
 export default function Layout() {
@@ -15,20 +15,21 @@ export default function Layout() {
             key={i.path}
             path={i.path}
             exact={i.exact}
-            component={
-              Loadable({
-                loader: i.loader,
-                loading() {
-                  return <div>Loading...</div>;
-                },
-                render(loaded, props) {
-                  const Component = loaded.default;
-                  return (
-                    <Component {...props} />
-                  );
-                },
-              })
-            }
+            component={i.component}
+            // component={
+            //   Loadable({
+            //     loader: i.loader,
+            //     loading() {
+            //       return <div>Loading...</div>;
+            //     },
+            //     render(loaded, props) {
+            //       const Component = loaded.default;
+            //       return (
+            //         <Component {...props} />
+            //       );
+            //     },
+            //   })
+            // }
           />
         ))}
       </div>

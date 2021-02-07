@@ -1,20 +1,16 @@
 import path from 'path';
 import webpack from "webpack";
+import { merge } from "webpack-merge";
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import nodeExternals from 'webpack-node-externals';
+import baseConfig from "./webpack.base.mjs";
 
 const dev = process.env.NODE_ENV === 'development' ? true : false;
 
-const plugins = [
-  new webpack.DefinePlugin({
-    '__isBrowser__': false //eslint-disable-line
-  })
-]
-
-const config = {
+const serverConfig = {
   mode: dev ? "development" : "production",
-  // context: path.resolve(),
+  context: path.resolve("" ),
   entry: {
     app: "./src/client/app.jsx",
   },
@@ -23,6 +19,7 @@ const config = {
     filename: '[name].[chunkhash:8].js',
   },
   target: 'node',
+  devtool: dev ? 'eval-source-map' : false,
   externals: nodeExternals({
     allowlist: [/\.(css|less|sass|scss)$/, /^antd.*?css/],
     modulesDir: process.cwd(),
@@ -32,7 +29,7 @@ const config = {
       {
         test: /\.(css|less)$/i,
         use: [
-          process.env.NODE_ENV === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -94,12 +91,15 @@ const config = {
     }
   },
   plugins: [
-    ...plugins,
+    new webpack.DefinePlugin({
+      '__isBrowser__': false //eslint-disable-line
+    }),
     new CleanWebpackPlugin(),
   ],
 };
 
 
 export default function getServerSideConfig() {
+  const config = merge(baseConfig, serverConfig);
   return config;
 }
